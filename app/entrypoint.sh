@@ -3,13 +3,6 @@
 
 set -u
 
-function check_deprecated_env_var {
-    if [[ -n "${ACME_TOS_HASH:-}" ]]; then
-        echo "Info: the ACME_TOS_HASH environment variable is no longer used by simp_le and has been deprecated."
-        echo "simp_le now implicitly agree to the ACME CA ToS."
-    fi
-}
-
 function check_docker_socket {
     if [[ $DOCKER_HOST == unix://* ]]; then
         socket_file=${DOCKER_HOST#unix://}
@@ -159,7 +152,6 @@ if [[ "$*" == "/bin/bash /app/start.sh" ]]; then
     check_writable_directory '/etc/nginx/certs'
     check_writable_directory '/etc/nginx/vhost.d'
     check_writable_directory '/usr/share/nginx/html'
-    check_deprecated_env_var
     check_default_cert_key
     check_dh_group
     reload_nginx
